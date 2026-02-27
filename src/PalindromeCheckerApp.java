@@ -1,5 +1,29 @@
 import java.util.Scanner;
+import java.util.Stack;
 
+// Palindrome Service Class
+class PalindromeChecker {
+    public boolean checkPalindrome(String input) {
+
+        if (input == null) {
+            return false;
+        }
+        String normalized = input.replaceAll("\\s+", "").toLowerCase();
+
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < normalized.length(); i++) {
+            stack.push(normalized.charAt(i));
+        }
+        for (int i = 0; i < normalized.length(); i++) {
+            char popped = stack.pop();
+            if (normalized.charAt(i) != popped) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
 public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
@@ -7,35 +31,18 @@ public class PalindromeCheckerApp {
         Scanner sc = new Scanner(System.in);
 
         System.out.print("Enter a string: ");
-        String inputString = sc.nextLine();
-        String normalized = inputString
-                .replaceAll("\\s+", "")
-                .toLowerCase();
+        String input = sc.nextLine();
 
-        // Step 2: Apply palindrome logic (Two-pointer approach)
-        boolean isPalindrome = checkPalindrome(normalized);
+        PalindromeChecker checker = new PalindromeChecker();
 
-        if (isPalindrome) {
-            System.out.println("Result: The given string is a Palindrome (Ignoring spaces & case).");
+        boolean result = checker.checkPalindrome(input);
+
+        if (result) {
+            System.out.println("Result: The given string is a Palindrome.");
         } else {
             System.out.println("Result: The given string is NOT a Palindrome.");
         }
 
         sc.close();
-    }
-    public static boolean checkPalindrome(String str) {
-
-        int start = 0;
-        int end = str.length() - 1;
-
-        while (start < end) {
-            if (str.charAt(start) != str.charAt(end)) {
-                return false;
-            }
-            start++;
-            end--;
-        }
-
-        return true;
     }
 }
